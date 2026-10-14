@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PARKAR — Investor Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@420;500;600;700&family=Outfit:wght@420;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #022D1F;
+    --deep: #022920;
+    --ink: #07140F;
+    --mint: #38C189;
+    --mint-2: #37D39A;
+    --soft: #DFF3EC;
+    --line-mint: #BFEBDD;
+    --paper: #F4F7F5;
+    --white: #FFFFFF;
+    --muted: #4E635A;
+    --line: rgba(2, 45, 31, 0.12);
+    --shadow: 0 18px 40px rgba(2, 45, 31, 0.08);
+    --s: 1;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #03140f; color: var(--forest); }
+  body { font-family: Manrope, sans-serif; overflow: hidden; }
+  button, input { font-family: inherit; }
+  img { max-width: 100%; display: block; }
+  h1, h2, h3, h4 { font-family: Outfit, sans-serif; font-weight: 560; letter-spacing: -0.035em; margin: 0; line-height: 0.94; }
+  p { margin: 0; }
+  .screen { width: 100vw; height: 100vh; display: grid; place-items: center; }
+  .scaler { position: relative; }
+  .deck { width: 1920px; height: 1080px; position: absolute; top: 0; left: 0; transform: scale(var(--s)); transform-origin: top left; }
+  .slide {
+    position: absolute; inset: 0; opacity: 0; pointer-events: none;
+    transition: opacity .42s ease; background: var(--paper); overflow: hidden;
+  }
+  .slide.on { opacity: 1; pointer-events: auto; z-index: 2; }
+  .dark { background: var(--deep); color: #F4F7F5; }
+  .pad { position: absolute; inset: 0; padding: 64px 76px 58px; }
+  .kicker {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 15px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mint);
+  }
+  .kicker b { color: var(--forest); font-weight: 700; letter-spacing: 0.14em; }
+  .dark .kicker b { color: #F4F7F5; }
+  .kicker i { width: 28px; height: 1px; background: var(--mint); display: block; font-style: normal; }
+  .display { font-size: 76px; text-transform: uppercase; max-width: 16ch; }
+  .display.wide { max-width: none; }
+  .lede { font-size: 28px; line-height: 1.35; color: var(--muted); font-weight: 500; }
+  .dark .lede { color: rgba(244,247,245,.78); }
+  .note { font-size: 16px; line-height: 1.45; color: var(--muted); }
+  .dark .note { color: rgba(244,247,245,.62); }
+
+  .chrome {
+    position: fixed; z-index: 20; left: 0; right: 0; bottom: 18px;
+    display: flex; justify-content: center; pointer-events: none;
+  }
+  .pill {
+    pointer-events: auto; display: flex; align-items: center; gap: 8px;
+    background: rgba(2, 20, 15, .78); color: #F4F7F5; border: 1px solid rgba(255,255,255,.12);
+    border-radius: 999px; padding: 6px 8px 6px 16px; backdrop-filter: blur(10px);
+    font-size: 13px; letter-spacing: .12em; font-weight: 700;
+  }
+  .pill button {
+    width: 34px; height: 34px; border-radius: 50%; border: 0; background: transparent; color: #fff; cursor: pointer;
+  }
+  .pill button:hover { background: rgba(255,255,255,.1); }
+  .progress {
+    position: fixed; z-index: 20; top: 0; left: 0; height: 3px; width: 0; background: var(--mint); transition: width .35s ease;
+  }
+
+  /* COVER */
+  .s1 { height: 100%; display: grid; grid-template-columns: 1.05fr .95fr; gap: 20px; }
+  .s1-copy { display: flex; flex-direction: column; justify-content: space-between; padding: 8px 0 6px; position: relative; z-index: 1; }
+  .s1 .logo { width: 460px; height: auto; }
+  .s1 h1 { font-size: 72px; max-width: 12ch; margin-top: 28px; text-transform: uppercase; }
+  .s1 .sub { margin-top: 28px; font-size: 26px; line-height: 1.4; max-width: 28ch; color: rgba(244,247,245,.78); }
+  .s1-meta { display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid rgba(255,255,255,.14); padding-top: 22px; margin-top: 36px; }
+  .s1-meta span { display: block; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--mint); font-weight: 700; margin-bottom: 8px; }
+  .s1-meta strong { font-family: Outfit, sans-serif; font-size: 22px; font-weight: 500; letter-spacing: -0.02em; }
+  .s1-meta .year { font-family: Outfit, sans-serif; font-size: 42px; letter-spacing: -0.04em; }
+  .net { position: relative; height: 100%; }
+  .net svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .lot {
+    position: absolute; min-width: 118px; padding: 12px 14px 11px; background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.16); color: #F4F7F5;
+  }
+  .lot small { display: block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--mint); font-weight: 700; margin-bottom: 4px; }
+  .lot b { font-family: Outfit, sans-serif; font-weight: 500; font-size: 16px; letter-spacing: -0.02em; }
+  .bays { display: flex; gap: 4px; margin-top: 8px; }
+  .bays span { width: 16px; height: 10px; border: 1px solid rgba(56,193,137,.7); }
+  .bays span.on { background: var(--mint); border-color: var(--mint); }
+  .net-mark { position: absolute; width: 148px; left: 50%; top: 46%; transform: translate(-50%,-50%); filter: drop-shadow(0 10px 24px rgba(0,0,0,.25)); }
+  .star { position: absolute; width: 28px; opacity: .9; }
+
+  /* PROBLEM */
+  .s2 { height: 100%; display: flex; flex-direction: column; gap: 28px; }
+  .s2 .mid { display: grid; grid-template-columns: 420px 1fr; gap: 36px; align-items: center; }
+  .s2 .drivers { margin-top: 8px; }
+  .s2 h1 { font-size: 64px; max-width: 16ch; }
+  .statement {
+    font-family: Outfit, sans-serif; font-size: 40px; letter-spacing: -0.035em; line-height: 1.05; max-width: 18ch;
+  }
+  .props { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; align-items: stretch; }
+  .prop { background: #fff; border: 1px solid var(--line); padding: 16px 14px 14px; display: flex; flex-direction: column; justify-content: space-between; min-height: 210px; }
+  .prop .tag { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .prop .state { margin-top: 12px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--mint); }
+  .prop.idle { background: var(--soft); }
+  .lot-art { height: 92px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; align-content: end; }
+  .lot-art i { display: block; height: 28px; border: 1.5px solid rgba(2,45,31,.25); background: transparent; }
+  .prop.idle .lot-art i:nth-child(odd) { background: rgba(56,193,137,.45); border-color: transparent; }
+  .drivers { display: grid; grid-template-columns: 280px 1fr; gap: 18px; align-items: center; background: var(--forest); color: #fff; padding: 16px 18px; }
+  .drivers img { width: 230px; height: 140px; object-fit: contain; background: #fff; }
+  .drow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .drow div { border-left: 2px solid var(--mint); padding-left: 14px; }
+  .drow span { display: block; font-size: 12px; letter-spacing: .16em; font-weight: 700; color: var(--mint); }
+  .drow b { font-family: Outfit, sans-serif; font-size: 28px; font-weight: 500; letter-spacing: -0.03em; }
+
+  /* GAP */
+  .split { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; }
+  .half { padding: 80px 90px 150px; display: flex; flex-direction: column; justify-content: center; }
+  .half.right { background: var(--paper); color: var(--forest); }
+  .who { font-size: 14px; letter-spacing: .18em; font-weight: 700; text-transform: uppercase; color: var(--mint); margin-bottom: 18px; }
+  .half h2 { font-size: 72px; text-transform: uppercase; max-width: 8ch; }
+  .gaps {
+    position: static; width: auto; display: flex; flex-direction: column; gap: 10px;
+  }
+  .gap-layout { height: 100%; display: flex; flex-direction: column; gap: 22px; }
+  .gap-layout h1 { font-size: 58px; text-transform: uppercase; max-width: 16ch; }
+  .gap-body { flex: 1; display: grid; grid-template-columns: 1fr 300px 1fr; gap: 28px; align-items: center; min-height: 0; }
+  .owner-side { background: var(--paper); color: var(--forest); padding: 36px 32px; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+  .gap-layout .connect { position: static; }
+  .gaps div {
+    background: #fff; color: var(--forest); border: 1px solid var(--line); text-align: center;
+    font-family: Outfit, sans-serif; font-size: 18px; letter-spacing: .08em; padding: 14px 10px; font-weight: 600;
+  }
+  .connect {
+    position: absolute; left: 76px; right: 76px; bottom: 48px; background: var(--mint); color: var(--forest);
+    padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; z-index: 4;
+  }
+  .connect strong { font-family: Outfit, sans-serif; font-size: 32px; letter-spacing: -0.03em; text-transform: uppercase; }
+  .connect span { font-weight: 700; letter-spacing: .12em; font-size: 14px; }
+
+  /* SOLUTION */
+  .s4 { height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: 26px; }
+  .ba { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; min-height: 0; }
+  .panel { padding: 28px; border: 1px solid var(--line); display: flex; flex-direction: column; background: #fff; }
+  .panel.after { background: var(--forest); color: #fff; border-color: var(--forest); }
+  .panel .lbl { font-size: 13px; letter-spacing: .16em; font-weight: 700; color: var(--muted); }
+  .panel.after .lbl { color: var(--mint); }
+  .frag { margin-top: 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; flex: 1; align-content: center; }
+  .frag .box { height: 78px; border: 1px dashed rgba(2,45,31,.28); background: var(--paper); }
+  .checks { margin-top: 26px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .checks div { border: 1px solid rgba(255,255,255,.16); padding: 16px 16px; font-family: Outfit, sans-serif; font-size: 26px; letter-spacing: -0.03em; }
+  .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 12px; align-items: center; }
+  .flow .node { position: static; width: auto; left: auto; top: auto; background: #fff; border: 1px solid var(--line); padding: 16px 18px; text-align: center; font-family: Outfit, sans-serif; letter-spacing: .06em; font-size: 18px; }
+  .flow .node.mid { background: var(--forest); color: #fff; }
+  .flow .arr { color: var(--mint); font-size: 28px; text-align: center; }
+  .principle { font-size: 22px; font-weight: 600; }
+
+  /* STEPS */
+  .s5 { height: 100%; display: flex; flex-direction: column; }
+  .steps { margin-top: 54px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; position: relative; flex: 1; }
+  .steps:before {
+    content: ""; position: absolute; left: 4%; right: 4%; top: 78px; height: 1px; background: var(--line-mint);
+  }
+  .step { position: relative; }
+  .num {
+    width: 72px; height: 72px; border-radius: 50%; background: #fff; border: 1px solid var(--line);
+    display: grid; place-items: center; font-family: Outfit, sans-serif; font-size: 22px; position: relative; z-index: 1;
+  }
+  .step:nth-child(3) .num, .step:nth-child(5) .num { background: var(--forest); color: #fff; border-color: var(--forest); }
+  .step h3 { margin-top: 28px; font-size: 32px; text-transform: uppercase; }
+  .step p { margin-top: 12px; font-size: 20px; line-height: 1.35; color: var(--muted); max-width: 16ch; }
+  .s5 .closer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 22px; display: flex; justify-content: space-between; align-items: center; }
+  .s5 .closer strong { font-family: Outfit, sans-serif; font-size: 28px; letter-spacing: -0.03em; }
+
+  /* SUPPLY */
+  .s6 { height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: 20px; }
+  .s6-body { display: grid; grid-template-columns: 380px 1fr; gap: 28px; min-height: 0; }
+  .ops { display: flex; flex-direction: column; justify-content: space-between; border-left: 2px solid var(--mint); padding-left: 18px; }
+  .ops div span { font-family: Outfit, sans-serif; font-size: 13px; color: var(--mint); letter-spacing: .12em; }
+  .ops div b { display: block; font-size: 22px; margin-top: 2px; letter-spacing: -0.02em; font-family: Outfit, sans-serif; font-weight: 550; }
+  .mapwrap { position: relative; background:
+    radial-gradient(circle at 30% 40%, rgba(56,193,137,.18), transparent 28%),
+    radial-gradient(circle at 68% 58%, rgba(56,193,137,.14), transparent 26%),
+    linear-gradient(#fff, #fff);
+    border: 1px solid var(--line); overflow: hidden;
+  }
+  .mapwrap svg { width: 100%; height: 100%; position: absolute; inset: 0; }
+  .chip {
+    position: absolute; background: #fff; border: 1px solid var(--line); padding: 8px 10px;
+    font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  }
+  .teamdot { position: absolute; width: 14px; height: 14px; background: var(--forest); border: 3px solid var(--mint); border-radius: 50%; }
+
+  /* NETWORK */
+  .s7 { height: 100%; display: grid; grid-template-columns: .85fr 1.15fr; gap: 20px; align-items: center; }
+  .s7 h1 { font-size: 58px; max-width: 14ch; }
+  .wheel { position: relative; width: 760px; height: 760px; margin-left: auto; }
+  .wheel .hub {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+    width: 210px; height: 210px; border-radius: 50%; border: 1px solid rgba(255,255,255,.18);
+    display: grid; place-items: center; text-align: center; background: rgba(255,255,255,.03);
+  }
+  .wheel .hub img { width: 72px; margin: 0 auto 8px; }
+  .wheel .hub b { font-family: Outfit, sans-serif; letter-spacing: .14em; font-size: 16px; }
+  .node {
+    position: absolute; width: 210px; padding: 16px 16px; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.04);
+  }
+  .node span { display: block; color: var(--mint); font-size: 12px; letter-spacing: .14em; font-weight: 700; }
+  .node b { font-family: Outfit, sans-serif; font-size: 22px; font-weight: 500; letter-spacing: -0.03em; }
+  .satellites { display: flex; gap: 10px; margin-top: 36px; flex-wrap: wrap; }
+  .satellites span { border: 1px solid rgba(255,255,255,.16); padding: 8px 12px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
+
+  /* PRODUCT */
+  .s8 { height: 100%; display: grid; grid-template-rows: auto 1fr; gap: 18px; }
+  .s8-head { display: flex; justify-content: space-between; align-items: flex-end; }
+  .s8 h1 { font-size: 60px; }
+  .devices { display: grid; grid-template-columns: 380px 380px 1fr; gap: 28px; align-items: end; min-height: 0; }
+  .device-label { font-size: 13px; letter-spacing: .16em; font-weight: 700; text-transform: uppercase; color: var(--mint); margin-bottom: 8px; }
+  .device-label b { display: block; color: var(--forest); font-family: Outfit, sans-serif; font-size: 26px; letter-spacing: -0.03em; text-transform: uppercase; margin-top: 4px; }
+  .micro { display: flex; gap: 8px; margin: 8px 0 12px; flex-wrap: wrap; }
+  .micro span { font-size: 13px; font-weight: 700; color: var(--muted); }
+  .micro span:after { content: "→"; margin-left: 8px; color: var(--mint); }
+  .micro span:last-child:after { content: ""; }
+  .phone {
+    width: 340px; height: 640px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow);
+    padding: 18px 16px 16px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .search { border: 1px solid var(--line); padding: 12px 14px; font-size: 15px; color: var(--muted); }
+  .mapmini { flex: 1; background:
+    linear-gradient(rgba(2,45,31,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(2,45,31,.05) 1px, transparent 1px),
+    var(--soft);
+    background-size: 28px 28px; position: relative; min-height: 240px;
+  }
+  .pin { position: absolute; width: 18px; height: 18px; background: var(--forest); border-radius: 50% 50% 50% 0; transform: rotate(-45deg); }
+  .pin:after { content: ""; position: absolute; width: 6px; height: 6px; background: var(--mint); border-radius: 50%; left: 6px; top: 6px; }
+  .sheet { border: 1px solid var(--line); padding: 12px; }
+  .sheet b { font-family: Outfit, sans-serif; font-size: 18px; }
+  .sheet p { color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .book { margin-top: 10px; background: var(--forest); color: #fff; text-align: center; padding: 10px; font-weight: 700; letter-spacing: .08em; font-size: 13px; }
+  .own-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding: 12px 0; font-size: 15px; }
+  .tog { width: 36px; height: 20px; background: var(--mint); border-radius: 99px; position: relative; }
+  .tog:after { content: ""; width: 14px; height: 14px; background: #fff; border-radius: 50%; position: absolute; right: 3px; top: 3px; }
+  .earn { margin-top: auto; background: var(--soft); padding: 16px; }
+  .earn span { font-size: 12px; letter-spacing: .14em; font-weight: 700; color: var(--muted); }
+  .earn b { display: block; font-family: Outfit, sans-serif; font-size: 36px; margin-top: 4px; }
+  .admin {
+    height: 640px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); padding: 20px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .admin-top { display: flex; justify-content: space-between; align-items: center; }
+  .q { display: grid; grid-template-columns: 1.3fr .7fr; gap: 12px; flex: 1; min-height: 0; }
+  .qcol { border: 1px solid var(--line); padding: 12px; }
+  .qitem { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+  .pilltag { font-size: 11px; letter-spacing: .1em; font-weight: 700; color: var(--forest); background: var(--soft); padding: 4px 6px; }
+
+  /* MVP */
+  .s9 { height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: 22px; }
+  .cols3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; min-height: 0; }
+  .col { background: #fff; border: 1px solid var(--line); padding: 26px 26px 18px; }
+  .col header { font-family: Outfit, sans-serif; font-size: 28px; letter-spacing: .08em; padding-bottom: 14px; border-bottom: 2px solid var(--mint); margin-bottom: 8px; }
+  .col:nth-child(2) header { border-color: var(--forest); }
+  .col:nth-child(3) header { border-color: var(--ink); }
+  .col li { list-style: none; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 20px; font-weight: 600; }
+  .col ul { margin: 0; padding: 0; }
+  .lean { font-family: Outfit, sans-serif; font-size: 28px; letter-spacing: -0.03em; }
+
+  /* WHY NOW */
+  .s10 { height: 100%; display: grid; grid-template-columns: .82fr 1.18fr; gap: 40px; align-items: center; }
+  .s10 h1 { font-size: 64px; }
+  .trends { display: flex; flex-direction: column; }
+  .trend { display: grid; grid-template-columns: 84px 1fr; gap: 16px; padding: 22px 0; border-top: 1px solid var(--line); }
+  .trend:last-child { border-bottom: 1px solid var(--line); }
+  .trend em { font-family: Outfit, sans-serif; font-style: normal; font-size: 28px; color: var(--mint); }
+  .trend h3 { font-size: 26px; text-transform: uppercase; }
+  .trend p { margin-top: 6px; font-size: 18px; color: var(--muted); line-height: 1.35; }
+
+  /* MARKET */
+  .s11 { height: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .rings { width: 560px; height: 560px; margin: 0 auto; position: relative; }
+  .rings .r {
+    position: absolute; border-radius: 50%; border: 1px solid rgba(2,45,31,.18); display: grid; place-items: center; text-align: center;
+    left: 50%; top: 50%; transform: translate(-50%,-50%);
+  }
+  .rings .r b { font-family: Outfit, sans-serif; font-size: 28px; letter-spacing: .08em; display: block; }
+  .rings .r span { font-size: 16px; color: var(--muted); }
+  .r1 { width: 560px; height: 560px; background: var(--soft); }
+  .r2 { width: 380px; height: 380px; background: #fff; }
+  .r3 { width: 210px; height: 210px; background: var(--forest); color: #fff; border-color: var(--forest); z-index: 1; }
+  .r3 span { color: rgba(255,255,255,.75); }
+  .ring-label { position: absolute; left: 0; right: 0; text-align: center; z-index: 2; }
+  .ring-label b { font-family: Outfit, sans-serif; font-size: 22px; letter-spacing: .12em; display: block; }
+  .ring-label span { display: block; font-size: 14px; color: var(--muted); }
+  .ring-label.tam { top: 22px; }
+  .ring-label.sam { top: 118px; }
+  .path { display: flex; flex-direction: column; gap: 0; }
+  .path .pstep { display: grid; grid-template-columns: 28px 1fr; gap: 16px; }
+  .path .rail { width: 1px; background: var(--mint); margin: 0 auto; min-height: 28px; }
+  .path h3 { font-size: 32px; text-transform: uppercase; }
+  .path p { color: var(--muted); font-size: 18px; margin-top: 4px; }
+  .ph { margin-top: 18px; background: #fff; border: 1px dashed rgba(2,45,31,.25); padding: 14px 16px; }
+  .ph b { font-family: Outfit, sans-serif; font-size: 22px; }
+  .ph span { display: block; color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+  /* MODEL */
+  .s12 { height: 100%; display: grid; grid-template-rows: auto 1fr; gap: 16px; }
+  .streams { display: grid; grid-template-columns: 1fr 280px 1fr; gap: 18px; min-height: 0; align-items: center; }
+  .stream-col h3 { font-size: 14px; letter-spacing: .16em; margin-bottom: 12px; }
+  .stream-col.future h3 { color: var(--muted); }
+  .rev { background: #fff; border: 1px solid var(--line); padding: 14px 16px; margin-bottom: 10px; display: grid; grid-template-columns: 36px 1fr; gap: 10px; align-items: center; }
+  .rev em { font-family: Outfit, sans-serif; font-style: normal; color: var(--mint); font-size: 18px; }
+  .rev b { display: block; font-size: 18px; }
+  .rev.future { background: transparent; border-style: dashed; }
+  .core {
+    height: 280px; background: var(--forest); color: #fff; display: grid; place-items: center; text-align: center; padding: 20px;
+  }
+  .core img { width: 72px; margin: 0 auto 10px; }
+  .core b { font-family: Outfit, sans-serif; letter-spacing: .12em; }
+
+  /* ECONOMICS */
+  .s13 { height: 100%; display: grid; grid-template-rows: auto auto 1fr auto; gap: 18px; }
+  .tx { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .tx div { background: #fff; border: 1px solid var(--line); padding: 20px 22px; }
+  .tx div:nth-child(3) { background: var(--forest); color: #fff; }
+  .tx span { font-size: 13px; letter-spacing: .14em; font-weight: 700; text-transform: uppercase; color: var(--muted); }
+  .tx div:nth-child(3) span { color: var(--mint); }
+  .tx b { display: block; font-family: Outfit, sans-serif; font-size: 54px; margin-top: 8px; letter-spacing: -0.04em; }
+  .water { display: grid; grid-template-columns: 1.2fr auto 1fr auto 1.3fr auto .8fr; gap: 10px; align-items: center; }
+  .wbox { background: #fff; border: 1px solid var(--line); padding: 18px; min-height: 120px; }
+  .wbox b { font-family: Outfit, sans-serif; font-size: 22px; display: block; }
+  .wbox span { color: var(--muted); font-size: 16px; }
+  .wbox.result { background: var(--soft); }
+  .op { text-align: center; font-family: Outfit, sans-serif; font-size: 32px; color: var(--mint); }
+  .levers { display: flex; gap: 10px; flex-wrap: wrap; }
+  .levers span { background: #fff; border: 1px solid var(--line); padding: 10px 14px; font-weight: 700; font-size: 15px; }
+
+  /* MATRIX */
+  .s14 { height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: 14px; }
+  .s14 h1 { font-size: 48px; }
+  .matrix { display: grid; grid-template-columns: 170px repeat(4, 1fr); border: 1px solid var(--line); background: #fff; font-size: 15px; line-height: 1.3; }
+  .matrix div { padding: 10px 12px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .matrix .hd { background: var(--paper); font-family: Outfit, sans-serif; font-size: 16px; letter-spacing: -0.02em; font-weight: 600; }
+  .matrix .hd.us { background: var(--forest); color: #fff; }
+  .matrix .lab { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-weight: 800; color: var(--muted); background: var(--paper); }
+  .matrix .us { background: rgba(56,193,137,.12); font-weight: 650; }
+  .diff { background: var(--forest); color: #fff; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+  .diff b { font-family: Outfit, sans-serif; font-size: 26px; letter-spacing: -0.03em; text-transform: uppercase; }
+  .src { font-size: 13px; color: var(--muted); line-height: 1.4; }
+
+  /* WIN */
+  .s15 { height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: 18px; }
+  .pillars { display: grid; grid-template-columns: 1fr 1.15fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; min-height: 0; }
+  .pillar { border: 1px solid rgba(255,255,255,.14); padding: 22px; }
+  .pillar em { font-family: Outfit, sans-serif; font-style: normal; color: var(--mint); font-size: 18px; }
+  .pillar h3 { margin-top: 10px; font-size: 28px; text-transform: uppercase; }
+  .pillar p { margin-top: 8px; color: rgba(244,247,245,.75); font-size: 18px; line-height: 1.35; }
+  .center-say {
+    grid-column: 2; grid-row: 1 / span 2; display: grid; place-items: center; text-align: center; padding: 28px;
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.14);
+  }
+  .center-say img { width: 84px; margin: 0 auto 16px; }
+  .center-say h2 { font-size: 40px; text-transform: uppercase; }
+
+  /* GTM */
+  .s16 { height: 100%; display: grid; grid-template-rows: auto 1fr auto auto; gap: 16px; }
+  .gtm { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .gtm article { background: #fff; border: 1px solid var(--line); padding: 16px 14px 18px; min-height: 250px; display: flex; flex-direction: column; }
+  .gtm article:nth-child(odd) { background: var(--soft); }
+  .gtm em { font-family: Outfit, sans-serif; font-style: normal; font-size: 28px; color: var(--mint); }
+  .gtm h3 { margin-top: 20px; font-size: 24px; text-transform: uppercase; }
+  .gtm p { margin-top: 8px; color: var(--muted); font-size: 16px; line-height: 1.35; }
+  .channels { display: flex; gap: 10px; flex-wrap: wrap; }
+  .channels span { border: 1px solid var(--line); background: #fff; padding: 10px 12px; font-size: 13px; font-weight: 800; letter-spacing: .1em; }
+  .density { font-family: Outfit, sans-serif; font-size: 36px; letter-spacing: -0.03em; text-transform: uppercase; }
+
+  /* ROADMAP */
+  .s17 { height: 100%; display: grid; grid-template-rows: auto 1fr; gap: 18px; }
+  .phases { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; min-height: 0; }
+  .phase { background: #fff; border: 1px solid var(--line); padding: 16px 14px; display: flex; flex-direction: column; gap: 10px; }
+  .phase:nth-child(1) { background: var(--forest); color: #fff; }
+  .phase .pn { font-size: 12px; letter-spacing: .14em; font-weight: 800; color: var(--mint); }
+  .phase h3 { font-size: 26px; text-transform: uppercase; }
+  .phase .goal { font-size: 16px; color: var(--muted); min-height: 44px; }
+  .phase:nth-child(1) .goal { color: rgba(255,255,255,.75); }
+  .blk { border-top: 1px solid var(--line); padding-top: 8px; }
+  .phase:nth-child(1) .blk { border-color: rgba(255,255,255,.16); }
+  .blk span { display: block; font-size: 11px; letter-spacing: .14em; font-weight: 800; color: var(--mint); }
+  .blk p { font-size: 14px; line-height: 1.35; margin-top: 3px; }
+
+  /* EXEC */
+  .s18 { height: 100%; display: grid; grid-template-rows: auto auto 1fr auto; gap: 16px; }
+  .months { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .mo { background: #fff; border-top: 3px solid var(--mint); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); padding: 16px 14px; min-height: 180px; }
+  .mo span { font-size: 12px; letter-spacing: .14em; font-weight: 800; color: var(--mint); }
+  .mo h3 { margin-top: 12px; font-size: 24px; text-transform: uppercase; }
+  .outs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .outs div { background: var(--forest); color: #fff; padding: 16px; }
+  .outs span { font-size: 12px; letter-spacing: .12em; font-weight: 700; color: var(--mint); }
+  .outs b { display: block; font-family: Outfit, sans-serif; font-size: 32px; margin-top: 6px; }
+
+  /* FUNDS */
+  .s19 { height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: 16px; }
+  .s19 h1 { font-size: 52px; max-width: 18ch; text-transform: uppercase; }
+  .bars { display: flex; flex-direction: column; gap: 9px; }
+  .bar { display: grid; grid-template-columns: 280px 1fr 70px; gap: 12px; align-items: center; font-size: 16px; font-weight: 700; }
+  .track { height: 22px; background: rgba(2,45,31,.06); }
+  .fill { height: 100%; background: var(--forest); }
+  .fill.m { background: var(--mint); }
+  .themes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .themes div { border-top: 2px solid var(--mint); padding-top: 8px; }
+  .themes b { font-family: Outfit, sans-serif; font-size: 18px; letter-spacing: .06em; display: block; }
+  .themes span { color: var(--muted); font-size: 14px; }
+
+  /* UNLOCK */
+  .s20 { height: 100%; display: grid; grid-template-rows: auto auto 1fr; gap: 20px; }
+  .chain { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .chain b { background: #fff; border: 1px solid var(--line); padding: 12px 12px; font-family: Outfit, sans-serif; font-size: 16px; letter-spacing: .04em; }
+  .chain b.on { background: var(--forest); color: #fff; }
+  .chain i { color: var(--mint); font-style: normal; font-weight: 700; }
+  .miles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; align-content: end; }
+  .miles div { background: #fff; border: 1px solid var(--line); padding: 22px 16px; }
+  .miles b { font-family: Outfit, sans-serif; font-size: 42px; display: block; letter-spacing: -0.04em; }
+  .miles span { color: var(--muted); font-weight: 700; }
+
+  /* TRACTION */
+  .s21 { height: 100%; display: grid; grid-template-columns: .9fr 1.1fr; gap: 40px; align-items: center; }
+  .badge { display: inline-block; background: var(--mint); color: var(--forest); font-weight: 800; letter-spacing: .12em; font-size: 14px; padding: 8px 12px; }
+  .status { display: flex; flex-direction: column; gap: 0; }
+  .st { display: grid; grid-template-columns: 56px 1fr; gap: 12px; align-items: start; }
+  .st .n { font-family: Outfit, sans-serif; font-size: 22px; color: var(--mint); }
+  .st h3 { font-size: 28px; text-transform: uppercase; }
+  .st p { color: var(--muted); margin-top: 4px; font-size: 18px; }
+  .board { margin-top: 8px; }
+  .board h3 { font-size: 16px; letter-spacing: .14em; color: var(--muted); margin-bottom: 12px; }
+  .boardgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .boardgrid div { border: 1px dashed rgba(2,45,31,.25); padding: 16px; background: #fff; }
+  .boardgrid b { font-family: Outfit, sans-serif; font-size: 28px; display: block; }
+  .boardgrid span { color: var(--muted); font-size: 14px; }
+
+  /* TEAM */
+  .s22 { height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: 18px; }
+  .people { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .person { background: #fff; border: 1px solid var(--line); padding: 28px 24px; display: flex; flex-direction: column; }
+  .person .role { font-size: 13px; letter-spacing: .16em; font-weight: 800; color: var(--mint); }
+  .person h3 { margin-top: 16px; font-size: 40px; }
+  .person .job { margin-top: 8px; font-size: 20px; font-weight: 700; }
+  .person p { margin-top: 18px; color: var(--muted); font-size: 18px; line-height: 1.4; }
+  .why { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .why span { background: var(--forest); color: #fff; padding: 10px 12px; font-size: 13px; letter-spacing: .1em; font-weight: 800; }
+  .why p { font-size: 16px; color: var(--muted); max-width: 62ch; }
+
+  /* VISION */
+  .s23 { height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: 20px; }
+  .ladder { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; align-items: end; height: 100%; }
+  .ladder div { background: #fff; border: 1px solid var(--line); padding: 16px 12px; }
+  .ladder div:nth-child(odd) { background: var(--soft); }
+  .ladder div:last-child { background: var(--forest); color: #fff; }
+  .ladder em { font-family: Outfit, sans-serif; font-style: normal; color: var(--mint); font-size: 18px; }
+  .ladder b { display: block; margin-top: 28px; font-family: Outfit, sans-serif; font-size: 22px; letter-spacing: -0.03em; text-transform: uppercase; }
+  .vision-end { font-family: Outfit, sans-serif; font-size: 30px; letter-spacing: -0.03em; line-height: 1.15; text-transform: uppercase; max-width: 28ch; }
+
+  /* ASK */
+  .s24 { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+  .s24 h1 { font-size: 68px; max-width: 16ch; text-transform: uppercase; }
+  .askgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 28px; }
+  .askgrid div { border: 1px solid rgba(255,255,255,.16); padding: 18px; }
+  .askgrid span { font-size: 12px; letter-spacing: .16em; font-weight: 800; color: var(--mint); }
+  .askgrid b { display: block; margin-top: 10px; font-family: Outfit, sans-serif; font-size: 28px; font-weight: 500; letter-spacing: -0.03em; }
+  .closeline { font-family: Outfit, sans-serif; font-size: 40px; text-transform: uppercase; letter-spacing: -0.035em; line-height: 1.05; max-width: 18ch; }
+  .closeline em { font-style: normal; color: var(--mint); }
+
+  /* CLOSE */
+  .s25 { height: 100%; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; }
+  .s25 .logo { width: 520px; }
+  .s25 h1 { font-size: 72px; max-width: 14ch; text-transform: uppercase; }
+  .contact { display: flex; gap: 28px; width: 100%; border-top: 1px solid rgba(255,255,255,.14); padding-top: 22px; }
+  .contact span { display: block; font-size: 12px; letter-spacing: .16em; color: var(--mint); font-weight: 800; margin-bottom: 6px; }
+  .contact b { font-family: Outfit, sans-serif; font-size: 22px; font-weight: 500; }
+
+  .decor-wave { position: absolute; width: 420px; opacity: .7; pointer-events: none; }
+  .decor-blob { position: absolute; width: 280px; pointer-events: none; opacity: .9; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .slide, .progress { transition: none; }
+  }
+  @media print {
+    body { overflow: visible; background: #fff; }
+    .chrome, .progress { display: none !important; }
+    .screen { display: block; height: auto; }
+    .scaler { width: auto !important; height: auto !important; }
+    .deck { position: static; transform: none !important; width: auto; height: auto; }
+    .slide {
+      position: relative; opacity: 1 !important; pointer-events: auto; display: block;
+      width: 1920px; height: 1080px; break-after: page; page-break-after: always;
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+  }
+  @page { size: 1920px 1080px; margin: 0; }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="screen">
+  <div class="scaler" id="scaler">
+    <div class="deck" id="deck">
+
+      <!-- 01 COVER -->
+      <section class="slide dark on" data-title="Cover">
+        <div class="pad">
+          <img class="star" src="decor-items/lines/4-side-star.svg" alt="" style="right:90px;top:70px;width:22px">
+          <div class="s1">
+            <div class="s1-copy">
+              <div>
+                <img class="logo" src="deck-assets/logo-light.png" alt="PARKAR — Park kar, aage badh.">
+                <p class="kicker" style="margin-top:36px"><i></i> Investor presentation</p>
+                <h1 style="margin-top:22px">Turning unused space into parking infrastructure.</h1>
+                <p class="sub">Building a reliable, bookable parking network from the spaces cities already have.</p>
+              </div>
+              <div class="s1-meta">
+                <div>
+                  <span>Founder / founding team</span>
+                  <strong>Abdullah · Pulkit · Sanskriti</strong>
+                </div>
+                <div class="year">2026</div>
+              </div>
+            </div>
+            <div class="net" aria-hidden="true">
+              <svg viewBox="0 0 760 900" fill="none">
+                <path d="M120 160 C 260 200, 300 340, 380 430" stroke="#38C189" stroke-width="1.5" stroke-dasharray="5 7"/>
+                <path d="M620 140 C 520 240, 470 320, 400 420" stroke="#38C189" stroke-width="1.5" stroke-dasharray="5 7"/>
+                <path d="M90 470 C 200 460, 280 450, 360 450" stroke="#BFEBDD" stroke-width="1.5"/>
+                <path d="M160 760 C 250 640, 320 560, 370 500" stroke="#38C189" stroke-width="1.5"/>
+                <path d="M600 780 C 520 660, 470 560, 420 500" stroke="#38C189" stroke-width="1.5"/>
+                <circle cx="380" cy="455" r="118" stroke="#38C189" stroke-opacity=".35"/>
+                <circle cx="380" cy="455" r="168" stroke="#BFEBDD" stroke-opacity=".25"/>
+              </svg>
+              <img class="net-mark" src="deck-assets/mark-light.png" alt="">
+              <div class="lot" style="left:28px;top:70px"><small>Fragment</small><b>Office bay</b><div class="bays"><span></span><span class="on"></span><span></span></div></div>
+              <div class="lot" style="right:24px;top:48px"><small>Fragment</small><b>Hotel</b><div class="bays"><span></span><span></span><span class="on"></span></div></div>
+              <div class="lot" style="left:8px;top:400px"><small>Fragment</small><b>Society</b><div class="bays"><span class="on"></span><span></span><span></span></div></div>
+              <div class="lot" style="left:70px;bottom:70px"><small>Fragment</small><b>Commercial</b><div class="bays"><span></span><span></span><span></span></div></div>
+              <div class="lot" style="right:46px;bottom:54px"><small>Fragment</small><b>Private</b><div class="bays"><span class="on"></span><span></span><span></span></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 PROBLEM -->
+      <section class="slide" data-title="The problem">
+        <div class="pad">
+          <div class="s2">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <p class="kicker"><i></i> <b>02 — The problem</b></p>
+            </div>
+            <h1 class="display" style="font-size:62px;max-width:18ch">The parking problem isn’t just a lack of space.</h1>
+            <div class="mid">
+              <p class="statement">Cities have parking capacity. Drivers just can’t reliably access it.</p>
+              <div class="props">
+                <article class="prop idle"><div class="tag">Offices</div><div class="lot-art"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="state">Available but unused</div></article>
+                <article class="prop idle"><div class="tag">Societies</div><div class="lot-art"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="state">Available but unused</div></article>
+                <article class="prop"><div class="tag">Hotels</div><div class="lot-art"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="state" style="color:var(--muted)">Sits idle by day</div></article>
+                <article class="prop"><div class="tag">Commercial</div><div class="lot-art"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="state" style="color:var(--muted)">Empty after hours</div></article>
+                <article class="prop idle"><div class="tag">Private</div><div class="lot-art"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="state">Available but unused</div></article>
+              </div>
+            </div>
+            <div class="drivers">
+              <img src="decor-items/states/find-parking-anywhere.png" alt="Illustration of a car searching for parking">
+              <div class="drow">
+                <div><span>Drivers are</span><b>Searching</b></div>
+                <div><span>Then</span><b>Circling</b></div>
+                <div><span>Then</span><b>Waiting</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 GAP -->
+      <section class="slide dark" data-title="The real gap">
+        <div class="pad gap-layout">
+          <div>
+            <p class="kicker"><i></i> 03 — The real gap</p>
+            <h1 style="margin-top:14px">The real gap is supply.</h1>
+          </div>
+          <div class="gap-body">
+            <div>
+              <div class="who">Driver</div>
+              <h2 style="font-size:52px;text-transform:uppercase;max-width:8ch">I need parking.</h2>
+              <img src="decor-items/states/find-parking-anywhere.png" alt="" style="width:260px;margin-top:28px;background:#fff">
+            </div>
+            <div class="gaps">
+              <div>NO DISCOVERY</div>
+              <div>NO TRUST</div>
+              <div>NO AVAILABILITY</div>
+              <div>NO SIMPLE BOOKING</div>
+            </div>
+            <div class="owner-side">
+              <div class="who">Property owner</div>
+              <h2 style="font-size:52px;text-transform:uppercase;max-width:8ch">I have unused space.</h2>
+              <div style="display:flex;gap:12px;margin-top:28px;align-items:center">
+                <img src="Logo/Pms_Icon.png" alt="" style="width:88px;height:88px;object-fit:cover">
+                <img src="decor-items/lines/two-circle.svg" alt="" style="width:88px">
+              </div>
+            </div>
+          </div>
+          <div class="connect">
+            <strong>Parkar connects the two.</strong>
+            <span>Supply meets demand.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 SOLUTION -->
+      <section class="slide" data-title="The solution">
+        <div class="pad">
+          <div class="s4">
+            <div>
+              <p class="kicker"><i></i> <b>04 — The solution</b></p>
+              <h1 class="display" style="font-size:56px;margin-top:16px;max-width:20ch">Parkar turns underutilized space into bookable parking.</h1>
+            </div>
+            <div class="ba">
+              <div class="panel">
+                <div class="lbl">BEFORE</div>
+                <h3 style="font-size:32px;margin-top:10px;text-transform:uppercase">Unused, fragmented spaces</h3>
+                <div class="frag"><div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div></div>
+              </div>
+              <div class="panel after">
+                <div class="lbl">AFTER</div>
+                <h3 style="font-size:32px;margin-top:10px;text-transform:uppercase">One bookable inventory</h3>
+                <div class="checks">
+                  <div>Verified</div><div>Discoverable</div><div>Bookable</div><div>Managed</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="flow">
+                <div class="node">PROPERTY OWNER</div>
+                <div class="arr">→</div>
+                <div class="node mid">PARKAR</div>
+                <div class="arr">→</div>
+                <div class="node">DRIVER</div>
+              </div>
+              <p class="principle" style="margin-top:16px">We build the supply network first, then make it accessible to drivers.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 HOW -->
+      <section class="slide" data-title="How PARKAR works">
+        <div class="pad s5">
+          <p class="kicker"><i></i> <b>05 — How Parkar works</b></p>
+          <h1 class="display" style="font-size:56px;margin-top:14px">A marketplace with supply at the front.</h1>
+          <div class="steps">
+            <article class="step"><div class="num">01</div><h3>Acquire</h3><p>Find underutilized parking spaces.</p></article>
+            <article class="step"><div class="num">02</div><h3>Verify</h3><p>Verify location, capacity, availability and quality.</p></article>
+            <article class="step"><div class="num">03</div><h3>List</h3><p>Convert them into bookable inventory.</p></article>
+            <article class="step"><div class="num">04</div><h3>Book</h3><p>Drivers discover and reserve parking.</p></article>
+            <article class="step"><div class="num">05</div><h3>Earn</h3><p>Owners earn. Parkar earns.</p></article>
+          </div>
+          <div class="closer">
+            <strong>Every new parking space increases network utility.</strong>
+            <img src="decor-items/lines/semi-bold-line.svg" alt="" style="width:280px">
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 SUPPLY -->
+      <section class="slide" data-title="Supply acquisition">
+        <div class="pad">
+          <div class="s6">
+            <div>
+              <p class="kicker"><i></i> <b>06 — Supply acquisition</b></p>
+              <h1 class="display" style="font-size:54px;margin-top:12px;max-width:18ch">We don’t wait for parking supply. We go build it.</h1>
+            </div>
+            <div class="s6-body">
+              <div class="ops">
+                <div><span>01</span><b>Field teams</b></div>
+                <div><span>02</span><b>Property identification</b></div>
+                <div><span>03</span><b>Owner outreach</b></div>
+                <div><span>04</span><b>Verification</b></div>
+                <div><span>05</span><b>Onboarding</b></div>
+                <div><span>06</span><b>Live parking</b></div>
+              </div>
+              <div class="mapwrap">
+                <svg viewBox="0 0 900 520" preserveAspectRatio="none">
+                  <path d="M40 80 H860 M40 180 H860 M40 280 H860 M40 380 H860" stroke="#022D1F" stroke-opacity=".08"/>
+                  <path d="M140 20 V500 M300 20 V500 M480 20 V500 M660 20 V500" stroke="#022D1F" stroke-opacity=".08"/>
+                  <circle cx="230" cy="160" r="70" fill="#DFF3EC"/>
+                  <circle cx="520" cy="250" r="90" fill="#DFF3EC"/>
+                  <circle cx="700" cy="150" r="54" fill="#BFEBDD"/>
+                  <path d="M150 400 C 240 340, 300 300, 400 260 S 620 180, 760 120" stroke="#38C189" stroke-width="2" stroke-dasharray="6 7" fill="none"/>
+                </svg>
+                <img src="deck-assets/mark-dark.png" alt="" style="position:absolute;width:42px;left:28%;top:22%">
+                <img src="deck-assets/mark-dark.png" alt="" style="position:absolute;width:42px;left:54%;top:40%">
+                <img src="deck-assets/mark-dark.png" alt="" style="position:absolute;width:42px;left:74%;top:20%">
+                <div class="teamdot" style="left:16%;top:74%"></div>
+                <div class="teamdot" style="left:40%;top:58%"></div>
+                <div class="teamdot" style="left:78%;top:24%"></div>
+                <div class="chip" style="left:16px;top:16px">Offices</div>
+                <div class="chip" style="left:16px;bottom:16px">Societies</div>
+                <div class="chip" style="right:16px;top:16px">Hotels</div>
+                <div class="chip" style="left:42%;top:16px">Commercial buildings</div>
+                <div class="chip" style="left:40%;bottom:16px">Private properties</div>
+              </div>
+            </div>
+            <p class="principle">Our operational advantage starts before the first booking.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 NETWORK -->
+      <section class="slide dark" data-title="The PARKAR network">
+        <div class="pad">
+          <div class="s7">
+            <div>
+              <p class="kicker"><i></i> 07 — The network</p>
+              <h1 style="margin-top:18px">More supply creates more utility. More demand creates more value.</h1>
+              <div class="satellites">
+                <span>Parking spaces</span><span>Drivers</span><span>Businesses</span><span>Property owners</span><span>Parkar</span>
+              </div>
+              <p class="lede" style="margin-top:28px;font-size:22px">Connections increase as each new verified space comes online.</p>
+            </div>
+            <div class="wheel">
+              <svg viewBox="0 0 760 760" style="position:absolute;inset:0;width:100%;height:100%">
+                <circle cx="380" cy="380" r="230" fill="none" stroke="#38C189" stroke-opacity=".45"/>
+                <path d="M380 150 L500 250 L540 420 L420 560 L250 500 L200 300 Z" fill="none" stroke="#BFEBDD" stroke-opacity=".35"/>
+              </svg>
+              <div class="hub"><img src="deck-assets/mark-light.png" alt=""><b>PARKAR</b></div>
+              <div class="node" style="left:275px;top:18px"><span>01</span><b>More parking</b></div>
+              <div class="node" style="right:10px;top:180px"><span>02</span><b>More coverage</b></div>
+              <div class="node" style="right:40px;bottom:70px"><span>03</span><b>More drivers</b></div>
+              <div class="node" style="left:40px;bottom:70px"><span>04</span><b>More bookings</b></div>
+              <div class="node" style="left:0;top:180px"><span>05</span><b>More owner participation</b></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 08 PRODUCT -->
+      <section class="slide" data-title="Product">
+        <div class="pad">
+          <div class="s8">
+            <div class="s8-head">
+              <div>
+                <p class="kicker"><i></i> <b>08 — Product</b></p>
+                <h1 style="margin-top:10px">One network. Three operating layers.</h1>
+              </div>
+              <img src="decor-items/lines/dotted-circle.svg" alt="" style="width:72px">
+            </div>
+            <div class="devices">
+              <div>
+                <div class="device-label">Driver <b>Book</b></div>
+                <div class="micro"><span>Search</span><span>Details</span><span>Booking</span></div>
+                <div class="phone">
+                  <div class="search">Where do you need to park?</div>
+                  <div class="mapmini">
+                    <i class="pin" style="left:30%;top:40%"></i>
+                    <i class="pin" style="left:58%;top:28%"></i>
+                    <i class="pin" style="left:48%;top:62%"></i>
+                  </div>
+                  <div class="sheet">
+                    <b>Orchid Society · B2</b>
+                    <p>4 min walk · Available now · Covered</p>
+                    <div class="book">BOOK THIS SPACE</div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="device-label">Parking owner <b>Earn</b></div>
+                <div class="micro"><span>Add space</span><span>Availability</span><span>Earnings</span></div>
+                <div class="phone">
+                  <b style="font-family:Outfit,sans-serif;font-size:22px">Your spaces</b>
+                  <div class="own-row"><span>Basement A · 12 bays</span><i class="tog"></i></div>
+                  <div class="own-row"><span>Visitor row · 6 bays</span><i class="tog"></i></div>
+                  <div class="own-row"><span>Weekend only · 4 bays</span><i class="tog" style="background:#d5ddd9"></i></div>
+                  <div class="earn"><span>THIS MONTH</span><b>₹[X]</b><p class="note">Placeholder until live earnings exist.</p></div>
+                </div>
+              </div>
+              <div>
+                <div class="device-label">Admin <b>Operate</b></div>
+                <div class="micro"><span>Verify spaces</span><span>Bookings</span><span>Operations</span></div>
+                <div class="admin">
+                  <div class="admin-top"><b style="font-family:Outfit,sans-serif;font-size:22px">Operations</b><span class="pilltag">PILOT</span></div>
+                  <div class="q">
+                    <div class="qcol">
+                      <span class="note">Verification queue</span>
+                      <div class="qitem"><span>Lakeview Offices · 20 bays</span><span class="pilltag">REVIEW</span></div>
+                      <div class="qitem"><span>City mall annex</span><span class="pilltag">VISIT</span></div>
+                      <div class="qitem"><span>Palm Residency</span><span class="pilltag">DOCS</span></div>
+                      <div class="qitem"><span>Station Hotel</span><span class="pilltag">LIVE</span></div>
+                    </div>
+                    <div class="qcol">
+                      <span class="note">Today</span>
+                      <div class="qitem"><span>Bookings</span><b>[X]</b></div>
+                      <div class="qitem"><span>Live spaces</span><b>[X]</b></div>
+                      <div class="qitem"><span>Open issues</span><b>[X]</b></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 09 MVP -->
+      <section class="slide" data-title="MVP">
+        <div class="pad">
+          <div class="s9">
+            <div>
+              <p class="kicker"><i></i> <b>09 — MVP</b></p>
+              <h1 class="display" style="font-size:56px;margin-top:12px">Phase 1 — prove the marketplace.</h1>
+            </div>
+            <div class="cols3">
+              <section class="col"><header>DRIVER</header><ul>
+                <li>Discover parking</li><li>View availability</li><li>Book</li><li>Pay</li><li>Navigate</li><li>Manage bookings</li>
+              </ul></section>
+              <section class="col"><header>PARKING OWNER</header><ul>
+                <li>Add parking</li><li>Set availability</li><li>Manage bookings</li><li>Track earnings</li>
+              </ul></section>
+              <section class="col"><header>ADMIN</header><ul>
+                <li>Verify spaces</li><li>Manage users</li><li>Manage bookings</li><li>Handle refunds</li><li>Monitor operations</li>
+              </ul></section>
+            </div>
+            <p class="lean">Start lean. Validate before automating.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 WHY NOW -->
+      <section class="slide" data-title="Why now">
+        <div class="pad">
+          <div class="s10">
+            <div>
+              <p class="kicker"><i></i> <b>10 — Why now</b></p>
+              <h1 style="margin-top:18px">The infrastructure exists. The network doesn’t.</h1>
+              <p class="lede" style="margin-top:22px;font-size:22px">Timing is structural. No market statistics are claimed on this slide.</p>
+            </div>
+            <div class="trends">
+              <article class="trend"><em>01</em><div><h3>Urban density</h3><p>More vehicles, and limited convenient parking where people actually stop.</p></div></article>
+              <article class="trend"><em>02</em><div><h3>Underutilized capacity</h3><p>Private and commercial spaces stay unused at different hours of the day.</p></div></article>
+              <article class="trend"><em>03</em><div><h3>Digital behavior</h3><p>Drivers already expect discovery, booking and payment on a phone.</p></div></article>
+              <article class="trend"><em>04</em><div><h3>Shared infrastructure</h3><p>Unused physical assets are being turned into on-demand services.</p></div></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11 MARKET -->
+      <section class="slide" data-title="Market">
+        <div class="pad">
+          <p class="kicker"><i></i> <b>11 — Market opportunity</b></p>
+          <div class="s11" style="height:calc(100% - 40px);margin-top:10px">
+            <div>
+              <div class="rings">
+                <div class="r r1"></div>
+                <div class="r r2"></div>
+                <div class="r r3"><div><b>SOM</b><span>First geography<br>[MARKET SIZE]</span></div></div>
+                <div class="ring-label tam"><b>TAM</b><span>Total parking opportunity · [MARKET SIZE]</span></div>
+                <div class="ring-label sam"><b>SAM</b><span>Initial urban market · [MARKET SIZE]</span></div>
+              </div>
+            </div>
+            <div>
+              <h2 class="display" style="font-size:48px;margin-bottom:22px">Start narrow. Then repeat.</h2>
+              <div class="path">
+                <div class="pstep"><div><div style="width:12px;height:12px;background:var(--mint);border-radius:50%;margin:6px auto 0"></div><div class="rail"></div></div><div><h3>Start small</h3><p>One high-demand micro-market.</p></div></div>
+                <div class="pstep"><div><div style="width:12px;height:12px;background:var(--forest);border-radius:50%;margin:6px auto 0"></div><div class="rail"></div></div><div><h3>Dominate a local network</h3><p>Useful coverage before the next area.</p></div></div>
+                <div class="pstep"><div><div style="width:12px;height:12px;background:var(--forest);border-radius:50%;margin:6px auto 0"></div></div><div><h3>Expand city by city</h3><p>Only after the local loop is working.</p></div></div>
+              </div>
+              <div class="ph"><b>Figures not stated.</b><span>Replace [MARKET SIZE] with a sourced estimate before this deck is circulated. Geography: [CITY / CORRIDOR].</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12 MODEL -->
+      <section class="slide" data-title="Business model">
+        <div class="pad">
+          <div class="s12">
+            <div>
+              <p class="kicker"><i></i> <b>12 — Business model</b></p>
+              <h1 class="display" style="font-size:52px;margin-top:10px">Multiple revenue streams. One core network.</h1>
+            </div>
+            <div class="streams">
+              <div class="stream-col">
+                <h3 style="color:var(--forest)">CURRENT</h3>
+                <div class="rev"><em>01</em><div><b>Transaction commission</b><span class="note">Primary take on each booking.</span></div></div>
+                <div class="rev"><em>02</em><div><b>Owner plans</b><span class="note">Subscription or lower-commission plans.</span></div></div>
+                <div class="rev"><em>03</em><div><b>Driver subscriptions</b><span class="note">For repeat parkers.</span></div></div>
+                <div class="rev"><em>04</em><div><b>Premium facility fees</b></div></div>
+                <div class="rev"><em>05</em><div><b>Local business advertising</b></div></div>
+                <div class="rev"><em>06</em><div><b>Enterprise parking management</b></div></div>
+              </div>
+              <div class="core">
+                <div>
+                  <img src="deck-assets/mark-light.png" alt="">
+                  <b>PARKAR<br>NETWORK</b>
+                </div>
+              </div>
+              <div class="stream-col future">
+                <h3>FUTURE</h3>
+                <div class="rev future"><em>07</em><div><b>EV charging partnerships</b><span class="note">After the parking network is real.</span></div></div>
+                <div class="rev future"><em>08</em><div><b>Smart parking infrastructure</b><span class="note">Sensors, access, guidance.</span></div></div>
+                <p class="note" style="margin-top:12px">Items 01–03 are the core model to prove. 04–06 can sit on the same network. 07–08 are not part of the first six months.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13 ECONOMICS -->
+      <section class="slide" data-title="Unit economics">
+        <div class="pad">
+          <div class="s13">
+            <div>
+              <p class="kicker"><i></i> <b>13 — Unit economics</b></p>
+              <h1 class="display" style="font-size:48px;margin-top:8px">One booking, made explicit.</h1>
+            </div>
+            <div class="tx">
+              <div><span>Driver pays</span><b>₹[X]</b></div>
+              <div><span>Owner receives</span><b>₹[Y]</b></div>
+              <div><span>Parkar revenue</span><b>₹[Z]</b></div>
+            </div>
+            <div class="water">
+              <div class="wbox"><span>Revenue per booking</span><b>₹[Z]</b></div>
+              <div class="op">−</div>
+              <div class="wbox"><span>Payment costs</span><b>[PAYMENT COST]</b></div>
+              <div class="op">−</div>
+              <div class="wbox"><span>Acquisition / operational costs</span><b>[COST]</b></div>
+              <div class="op">=</div>
+              <div class="wbox result"><span>Contribution margin</span><b>[MARGIN]</b></div>
+            </div>
+            <div>
+              <p class="note" style="margin-bottom:10px">Illustrative structure only. Not a forecast and not a live result.</p>
+              <div class="levers">
+                <span>Higher utilization</span>
+                <span>Repeat users</span>
+                <span>Lower acquisition cost</span>
+                <span>Higher parking density</span>
+                <span>Subscriptions</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 14 COMPETITION -->
+      <section class="slide" data-title="Competition">
+        <div class="pad">
+          <div class="s14">
+            <div>
+              <p class="kicker"><i></i> <b>14 — Competitive landscape</b></p>
+              <h1 style="margin-top:8px">Know the field. Don’t dismiss it.</h1>
+            </div>
+            <div class="matrix">
+              <div class="hd"></div>
+              <div class="hd">Park+</div>
+              <div class="hd">Parkopedia</div>
+              <div class="hd">MyPark+</div>
+              <div class="hd us">PARKAR</div>
+
+              <div class="lab">Core offering</div>
+              <div>Parking booking plus FASTag, challans, insurance and facility access.</div>
+              <div>Global parking data, payment and reservation.</div>
+              <div>Not verified from public sources.</div>
+              <div class="us">Local bookable network built from unused private supply.</div>
+
+              <div class="lab">Supply model</div>
+              <div>Listed parking and business parking systems.</div>
+              <div>Aggregated operator and city inventory.</div>
+              <div>Not verified.</div>
+              <div class="us">Field teams acquire and verify spaces first.</div>
+
+              <div class="lab">Driver booking</div>
+              <div>Advance booking is publicly offered.</div>
+              <div>Find, pay and reserve where operators support it.</div>
+              <div>Not verified.</div>
+              <div class="us">Discover, book and pay on listed Parkar inventory.</div>
+
+              <div class="lab">Private / unused space</div>
+              <div>Offices, malls and business sites are described. A field motion for fragmented private bays is not verified here.</div>
+              <div>Mapped facilities and on-street data.</div>
+              <div>Not verified.</div>
+              <div class="us">Primary focus: offices, societies, hotels, commercial buildings, private plots.</div>
+
+              <div class="lab">Owner network</div>
+              <div>Facility and operator products. A broad private-owner marketplace is not claimed here.</div>
+              <div>Operator data network.</div>
+              <div>Not verified.</div>
+              <div class="us">Property owners onboarded into one local network.</div>
+
+              <div class="lab">Difference</div>
+              <div>Broader vehicle-services platform.</div>
+              <div>Global data and payments layer.</div>
+              <div>No comparison until confirmed.</div>
+              <div class="us">Supply acquisition plus local operations.</div>
+            </div>
+            <div>
+              <div class="diff"><b>Supply acquisition + local parking network + operations</b><span style="font-size:14px;max-width:42ch;line-height:1.35">This is the wedge. It is not a claim that others lack booking.</span></div>
+              <p class="src" style="margin-top:8px">Public positioning reviewed October 2026: Park+ (parkplus.io) and Parkopedia (business.parkopedia.com, api.parkopedia.com). A distinct product named MyPark+ was not verified, so that column is left blank rather than assumed. Local single-site lots are adjacent, not a substitute for a density network.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 15 WIN -->
+      <section class="slide dark" data-title="Why PARKAR can win">
+        <div class="pad">
+          <div class="s15">
+            <p class="kicker"><i></i> 15 — Why Parkar can win</p>
+            <div class="pillars">
+              <article class="pillar"><em>01</em><h3>Supply-first strategy</h3><p>Actively acquire fragmented parking capacity.</p></article>
+              <div class="center-say">
+                <div>
+                  <img src="deck-assets/mark-light.png" alt="">
+                  <h2>We are not just aggregating listings. We are building the supply network.</h2>
+                </div>
+              </div>
+              <article class="pillar"><em>02</em><h3>Local density</h3><p>Build useful parking coverage area by area.</p></article>
+              <article class="pillar"><em>03</em><h3>Operations</h3><p>Verification, onboarding and parking quality create reliability.</p></article>
+              <article class="pillar" style="grid-column:3"><em>04</em><h3>Network effect</h3><p>More spaces, better coverage, more users, more bookings, more owners.</p></article>
+            </div>
+            <p class="note">The bet is operational, not a feature checklist.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 16 GTM -->
+      <section class="slide" data-title="Go-to-market">
+        <div class="pad">
+          <div class="s16">
+            <div>
+              <p class="kicker"><i></i> <b>16 — Go-to-market</b></p>
+              <h1 class="display" style="font-size:48px;margin-top:8px">Launch where a full network can exist.</h1>
+            </div>
+            <div class="gtm">
+              <article><em>01</em><h3>Choose</h3><p>A high-demand micro-market.</p></article>
+              <article><em>02</em><h3>Acquire</h3><p>Parking supply before ads.</p></article>
+              <article><em>03</em><h3>Launch</h3><p>Driver acquisition on real inventory.</p></article>
+              <article><em>04</em><h3>Density</h3><p>Enough spaces to be useful.</p></article>
+              <article><em>05</em><h3>Measure</h3><p>Utilization, repeats, contribution.</p></article>
+              <article><em>06</em><h3>Replicate</h3><p>The same loop, next area.</p></article>
+            </div>
+            <div class="channels">
+              <span>FIELD SALES</span><span>DIGITAL MARKETING</span><span>LOCAL PARTNERSHIPS</span><span>PROPERTY NETWORKS</span><span>REFERRALS</span><span>ON-GROUND BRANDING</span>
+            </div>
+            <p class="density">Density before scale.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 17 ROADMAP -->
+      <section class="slide" data-title="Roadmap">
+        <div class="pad">
+          <div class="s17">
+            <div>
+              <p class="kicker"><i></i> <b>17 — Phased roadmap</b></p>
+              <h1 class="display" style="font-size:46px;margin-top:8px">Controlled execution. Future stays labeled future.</h1>
+            </div>
+            <div class="phases">
+              <article class="phase"><div class="pn">PHASE 1</div><h3>MVP</h3><p class="goal">Prove bookings.</p>
+                <div class="blk"><span>PRODUCT</span><p>Driver, owner, admin.</p></div>
+                <div class="blk"><span>BUSINESS</span><p>First supply and first paid trips.</p></div>
+                <div class="blk"><span>TECHNOLOGY</span><p>Listing, booking, payments.</p></div></article>
+              <article class="phase"><div class="pn">PHASE 2</div><h3>Validation</h3><p class="goal">Improve reliability.</p>
+                <div class="blk"><span>PRODUCT</span><p>Quality of availability and support.</p></div>
+                <div class="blk"><span>BUSINESS</span><p>Repeat use in one area.</p></div>
+                <div class="blk"><span>TECHNOLOGY</span><p>Ops tools before automation.</p></div></article>
+              <article class="phase"><div class="pn">PHASE 3</div><h3>Scale</h3><p class="goal">Expand geography.</p>
+                <div class="blk"><span>PRODUCT</span><p>Same loop, new micro-markets.</p></div>
+                <div class="blk"><span>BUSINESS</span><p>City-by-city playbook.</p></div>
+                <div class="blk"><span>TECHNOLOGY</span><p>Only what density requires.</p></div></article>
+              <article class="phase"><div class="pn">PHASE 4</div><h3>Ecosystem</h3><p class="goal">Subscriptions, partnerships, enterprise.</p>
+                <div class="blk"><span>PRODUCT</span><p>Plans and business tools.</p></div>
+                <div class="blk"><span>BUSINESS</span><p>More than one revenue line.</p></div>
+                <div class="blk"><span>TECHNOLOGY</span><p>Accounts, billing, reporting.</p></div></article>
+              <article class="phase"><div class="pn">PHASE 5</div><h3>Infrastructure</h3><p class="goal">Smart parking, EV, city scale.</p>
+                <div class="blk"><span>PRODUCT</span><p>Access, guidance, charging.</p></div>
+                <div class="blk"><span>BUSINESS</span><p>Infrastructure partnerships.</p></div>
+                <div class="blk"><span>TECHNOLOGY</span><p>Hardware only after software demand.</p></div></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 18 EXECUTION -->
+      <section class="slide" data-title="Phase 1 plan">
+        <div class="pad">
+          <div class="s18">
+            <div>
+              <p class="kicker"><i></i> <b>18 — Phase 1 execution</b></p>
+              <h1 class="display" style="font-size:46px;margin-top:8px">What the first six months are for.</h1>
+            </div>
+            <div class="months">
+              <article class="mo"><span>MONTH 1</span><h3>Product + onboarding systems</h3></article>
+              <article class="mo"><span>MONTH 2</span><h3>Pilot parking acquisition</h3></article>
+              <article class="mo"><span>MONTH 3</span><h3>Driver launch</h3></article>
+              <article class="mo"><span>MONTH 4</span><h3>Optimize bookings</h3></article>
+              <article class="mo"><span>MONTH 5</span><h3>Expand successful micro-markets</h3></article>
+              <article class="mo"><span>MONTH 6</span><h3>Validate unit economics + prepare scale</h3></article>
+            </div>
+            <div>
+              <p class="note" style="margin-bottom:10px">Scoreboard. Targets are not set, so every figure is a placeholder.</p>
+              <div class="outs">
+                <div><span>PARKING SPACES</span><b>[X]</b></div>
+                <div><span>DRIVERS</span><b>[X]</b></div>
+                <div><span>BOOKINGS</span><b>[X]</b></div>
+                <div><span>REVENUE</span><b>₹[X]</b></div>
+                <div><span>REPEAT USERS</span><b>[X]</b></div>
+                <div><span>UTILIZATION</span><b>[X]%</b></div>
+              </div>
+            </div>
+            <p class="principle">Outputs follow supply. Marketing does not lead an empty map.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 19 FUNDS -->
+      <section class="slide" data-title="Use of funds">
+        <div class="pad">
+          <div class="s19">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px">
+              <div>
+                <p class="kicker"><i></i> <b>19 — Use of funds</b></p>
+                <h1 style="margin-top:8px">₹50L to prove and scale the core model.</h1>
+              </div>
+              <div style="text-align:right"><span class="note">TOTAL</span><b style="font-family:Outfit,sans-serif;font-size:48px;display:block">₹50L</b></div>
+            </div>
+            <div class="bars">
+              <div class="bar"><span>Team & salaries</span><div class="track"><div class="fill" style="width:36%"></div></div><b>₹18L</b></div>
+              <div class="bar"><span>Marketing & branding</span><div class="track"><div class="fill m" style="width:18%"></div></div><b>₹9L</b></div>
+              <div class="bar"><span>Tech & infrastructure</span><div class="track"><div class="fill" style="width:10%"></div></div><b>₹5L</b></div>
+              <div class="bar"><span>Vehicle protection reserve</span><div class="track"><div class="fill" style="width:8%"></div></div><b>₹4L</b></div>
+              <div class="bar"><span>Acquisition operations</span><div class="track"><div class="fill m" style="width:6%"></div></div><b>₹3L</b></div>
+              <div class="bar"><span>Legal / compliance / insurance</span><div class="track"><div class="fill" style="width:4%"></div></div><b>₹2L</b></div>
+              <div class="bar"><span>General operations</span><div class="track"><div class="fill" style="width:4%"></div></div><b>₹2L</b></div>
+              <div class="bar"><span>Contingency / working capital</span><div class="track"><div class="fill" style="width:14%"></div></div><b>₹7L</b></div>
+            </div>
+            <div>
+              <p class="note" style="margin-bottom:10px">The largest line is people, because early supply, product and operations are done by the team. Direct lines then cover demand, product, field acquisition and reserves. 18+9+5+4+3+2+2+7 = 50.</p>
+              <div class="themes">
+                <div><b>SUPPLY</b><span>Acquisition operations and field team time.</span></div>
+                <div><b>PRODUCT</b><span>Tech and infrastructure.</span></div>
+                <div><b>DEMAND</b><span>Marketing and branding.</span></div>
+                <div><b>OPERATIONS</b><span>Salaries, compliance, reserves, working capital.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 20 UNLOCKS -->
+      <section class="slide" data-title="What ₹50L unlocks">
+        <div class="pad">
+          <div class="s20">
+            <div>
+              <p class="kicker"><i></i> <b>20 — What ₹50L unlocks</b></p>
+              <h1 class="display" style="font-size:48px;margin-top:8px">Money tied to a sequence, not a feature list.</h1>
+            </div>
+            <div class="chain">
+              <b class="on">₹50L</b><i>↓</i>
+              <b>TEAM</b><i>↓</i>
+              <b>PARKING ACQUISITION</b><i>↓</i>
+              <b>PRODUCT</b><i>↓</i>
+              <b>MARKETING</b><i>↓</i>
+              <b>PILOT MARKETS</b><i>↓</i>
+              <b>BOOKINGS</b><i>↓</i>
+              <b>REVENUE</b><i>↓</i>
+              <b class="on">VALIDATED MODEL</b>
+            </div>
+            <div>
+              <p class="note" style="margin-bottom:12px">Milestone categories. Exact targets are still open.</p>
+              <div class="miles">
+                <div><b>[X]</b><span>Parking spaces</span></div>
+                <div><b>[X]</b><span>Drivers</span></div>
+                <div><b>[X]</b><span>Bookings</span></div>
+                <div><b>₹[X]</b><span>Revenue</span></div>
+                <div><b>[X]%</b><span>Repeat usage</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 21 TRACTION -->
+      <section class="slide" data-title="Traction">
+        <div class="pad">
+          <div class="s21">
+            <div>
+              <p class="kicker"><i></i> <b>21 — Traction</b></p>
+              <div class="badge" style="margin-top:22px">PRE-TRACTION / PRE-LAUNCH</div>
+              <h1 class="display" style="font-size:56px;margin-top:18px">No bookings are claimed.</h1>
+              <p class="lede" style="margin-top:16px;font-size:22px">There is no GMV, user count or live inventory figure in this deck because those numbers do not exist yet.</p>
+            </div>
+            <div>
+              <p class="note" style="margin-bottom:14px;letter-spacing:.14em;font-weight:800">CURRENT STATUS</p>
+              <div class="status">
+                <div class="st"><div class="n">01</div><div><h3>MVP / product development</h3><p>Driver, owner and admin scoped for a first marketplace.</p></div></div>
+                <div style="height:16px;border-left:1px solid var(--line-mint);margin-left:18px"></div>
+                <div class="st"><div class="n">02</div><div><h3>Parking supply acquisition</h3><p>The work that has to start before a public launch.</p></div></div>
+                <div style="height:16px;border-left:1px solid var(--line-mint);margin-left:18px"></div>
+                <div class="st"><div class="n">03</div><div><h3>Pilot preparation</h3><p>Choose the micro-market, then measure.</p></div></div>
+              </div>
+              <div class="board" style="margin-top:28px">
+                <h3>PILOT SCOREBOARD — NOT CURRENT RESULTS</h3>
+                <div class="boardgrid">
+                  <div><b>[X]+</b><span>Parking spaces</span></div>
+                  <div><b>[X]+</b><span>Users</span></div>
+                  <div><b>[X]+</b><span>Bookings</span></div>
+                  <div><b>₹[X]</b><span>GMV</span></div>
+                  <div><b>[X]%</b><span>Repeat users</span></div>
+                  <div><b>[X]%</b><span>Utilization</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 22 TEAM -->
+      <section class="slide" data-title="Team">
+        <div class="pad">
+          <div class="s22">
+            <div>
+              <p class="kicker"><i></i> <b>22 — The team</b></p>
+              <h1 class="display" style="font-size:48px;margin-top:8px">Abdullah, Pulkit and Sanskriti.</h1>
+            </div>
+            <div class="people">
+              <article class="person"><div class="role">FOUNDER</div><h3>Abdullah</h3><div class="job">Founder</div><p>[Relevant experience]</p></article>
+              <article class="person"><div class="role">CO-FOUNDER</div><h3>Pulkit</h3><div class="job">Co-founder</div><p>[Relevant experience]</p></article>
+              <article class="person"><div class="role">CO-FOUNDER</div><h3>Sanskriti</h3><div class="job">Co-founder</div><p>[Relevant experience]</p></article>
+            </div>
+            <div class="why">
+              <span>TECHNOLOGY</span><span>OPERATIONS</span><span>STARTUP EXPERIENCE</span><span>EXECUTION</span><span>DISTRIBUTION</span>
+              <p>The team has to cover field supply and product at the same time. Add each founder’s relevant experience before sending this deck.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 23 VISION -->
+      <section class="slide" data-title="Vision">
+        <div class="pad">
+          <div class="s23">
+            <div>
+              <p class="kicker"><i></i> <b>23 — Long-term vision</b></p>
+              <h1 class="display" style="font-size:48px;margin-top:8px;max-width:22ch">From parking app to urban parking infrastructure.</h1>
+            </div>
+            <div class="ladder">
+              <div style="min-height:42%"><em>01</em><b>Private spaces</b></div>
+              <div style="min-height:50%"><em>02</em><b>Bookable parking</b></div>
+              <div style="min-height:58%"><em>03</em><b>City parking network</b></div>
+              <div style="min-height:66%"><em>04</em><b>Enterprise parking</b></div>
+              <div style="min-height:74%"><em>05</em><b>Smart parking</b></div>
+              <div style="min-height:82%"><em>06</em><b>EV charging</b></div>
+              <div style="min-height:92%"><em>07</em><b>Urban mobility infrastructure</b></div>
+            </div>
+            <p class="vision-end">Parkar’s long-term goal is to make parking as accessible, discoverable and digital as ride-hailing made transport.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 24 ASK -->
+      <section class="slide dark" data-title="The ask">
+        <div class="pad s24">
+          <div>
+            <p class="kicker"><i></i> 24 — The ask</p>
+            <h1 style="margin-top:18px">We’re raising ₹50L to prove Parkar’s core marketplace.</h1>
+            <div class="askgrid">
+              <div><span>RAISE</span><b>₹50L</b></div>
+              <div><span>RUNWAY</span><b>6 months</b></div>
+              <div><span>FOCUS</span><b>Supply, product, demand, operations</b></div>
+              <div><span>MILESTONE</span><b>Prove repeatable parking marketplace economics</b></div>
+            </div>
+          </div>
+          <p class="closeline">The next step is not building more features. <em>It’s building more parking.</em></p>
+        </div>
+      </section>
+
+      <!-- 25 CLOSE -->
+      <section class="slide dark" data-title="Close">
+        <div class="pad s25">
+          <img class="logo" src="deck-assets/logo-light.png" alt="PARKAR">
+          <h1>The parking space is already there. We’re building the network.</h1>
+          <div class="contact">
+            <div><span>WEBSITE</span><b>[WEBSITE]</b></div>
+            <div><span>EMAIL</span><b>[EMAIL]</b></div>
+            <div><span>FOUNDERS</span><b>Abdullah · Pulkit · Sanskriti</b></div>
+            <div style="margin-left:auto"><span>2026</span><b>Park kar, aage badh.</b></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<div class="chrome">
+  <div class="pill">
+    <span id="count">01 / 25</span>
+    <button id="prev" type="button" aria-label="Previous slide">‹</button>
+    <button id="next" type="button" aria-label="Next slide">›</button>
+    <button id="full" type="button" aria-label="Full screen">⛶</button>
+  </div>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const count = document.getElementById('count');
+  const progress = document.getElementById('progress');
+  let i = 0;
+
+  function fit() {
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    document.documentElement.style.setProperty('--s', s);
+    const scaler = document.getElementById('scaler');
+    scaler.style.width = (1920 * s) + 'px';
+    scaler.style.height = (1080 * s) + 'px';
+  }
+
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((sl, idx) => {
+      sl.classList.toggle('on', idx === i);
+      sl.setAttribute('aria-hidden', idx === i ? 'false' : 'true');
+    });
+    count.textContent = String(i + 1).padStart(2, '0') + '  /  ' + String(slides.length).padStart(2, '0');
+    progress.style.width = ((i + 1) / slides.length * 100) + '%';
+    document.title = 'PARKAR — ' + (slides[i].dataset.title || 'Deck');
+  }
+
+  function next() { show(i + 1); }
+  function prev() { show(i - 1); }
+
+  document.getElementById('next').addEventListener('click', next);
+  document.getElementById('prev').addEventListener('click', prev);
+  document.getElementById('full').addEventListener('click', () => {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    const k = e.key;
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(k)) { e.preventDefault(); next(); }
+    else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); prev(); }
+    else if (k === 'Home') show(0);
+    else if (k === 'End') show(slides.length - 1);
+    else if (k === 'f' || k === 'F') document.getElementById('full').click();
+  });
+
+  document.getElementById('deck').addEventListener('click', (e) => {
+    if (e.target.closest('a, button')) return;
+    const x = e.clientX / window.innerWidth;
+    if (x > 0.78) next();
+    else if (x < 0.22) prev();
+  });
+
+  window.addEventListener('resize', fit);
+  fit();
+  show(0);
+</script>
+</body>
+</html>
